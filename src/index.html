@@ -30,17 +30,26 @@
 			#help {
 				padding: 8px 8px;
 				margin: 8px 8px;
+				background: #111;
+				border-radius: 16px;
 			}
 
 			#colors > span:not(:last-child)::after {
 				content: ", ";
 			}
+			#colors > span {
+				-webkit-text-stroke: 0.5px;
+				-webkit-text-stroke-color: rgba(0, 0, 0, 0.7);
+				font-weight: bold;
+			}
 
 			#board {
 				background: white;
 
-				width: 100%;
+				width: calc(100% - 8px);
 				height: 80px;
+
+				margin: 4px;
 
 				image-rendering: pixelated;
 			}
