@@ -27,6 +27,11 @@
 				position: relative;
 			}
 
+			#help {
+				padding: 8px 8px;
+				margin: 8px 8px;
+			}
+
 			#colors > span:not(:last-child)::after {
 				content: ", ";
 			}
@@ -71,10 +76,11 @@
 		<textarea id="settings">{}</textarea>
 		<div id="screen">
 			<h1>r/Place in r/Pan</h1>
-			<p>
+			<p id="help">
 				Type a command in the format <code>X Y color</code> to place a pixel.<br/>
 				For example, <code>5 9 red</code> will place a red pixel at (5, 9).<br />
-				Available colors are: <span id="colors"></span>
+				The board is <span id="boardWidth">0</span> by <span id="boardHeight">0</span> pixels.<br />
+				The available colors are: <span id="colors"></span>
 			</p>
 			<canvas id="board"></canvas>
 			<pre id="log"></pre>

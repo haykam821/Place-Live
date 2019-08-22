@@ -41,8 +41,8 @@ const settings = new Proxy(baseSettings, {
 const board = document.getElementById("board");
 board.style.height = board.clientWidth + "px";
 
-board.height = settings.height;
-board.width = settings.width;
+board.height = document.getElementById("boardHeight").innerText =  settings.height;
+board.width = document.getElementById("boardWidth").innerText = settings.width;
 
 const settingsInput = document.getElementById("settings");
 settingsInput.value = JSON.stringify(settings, null, "\t");
@@ -132,6 +132,7 @@ if (settings.commentSocketURL) {
 		const xPos = parseInt(content[1]);
 		const yPos = parseInt(content[2]);
 		if (!Number.isSafeInteger(xPos) || !Number.isSafeInteger(yPos)) return;
+		if (xPos < 0 || yPos < 0 || xPos >= board.width || yPos >= board.height) return;
 
 		if (typeof settings.colors !== "object") return;
 
