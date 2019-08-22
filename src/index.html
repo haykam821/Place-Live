@@ -22,10 +22,9 @@
 
 			#screen {
 				background: black;
-
 				z-index: 5;
-
 				text-align: center;
+				position: relative;
 			}
 
 			#board {
@@ -49,6 +48,18 @@
 				tab-size: 15px;
 				resize: none;
 			}
+
+			#log {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				
+				text-align: left;
+				
+				padding: 8px;
+				margin: 0;
+			}
 		</style>
 	</head>
 
@@ -62,6 +73,7 @@
 				Available colors are: <span id="colors"></span>
 			</p>
 			<canvas id="board"></canvas>
+			<pre id="log"></pre>
 		</div>
 	</body>
 </html>

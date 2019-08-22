@@ -5,6 +5,7 @@ screen.style.width = (480 / 854) * window.innerHeight + "px";
 let baseSettings = {
 	width: 120,
 	height: 120,
+	colors: ["red"],
 };
 try {
 	baseSettings = Object.assign(baseSettings, JSON.parse(localStorage.getItem("place-live:settings")));
@@ -61,4 +62,69 @@ function placePixel(x, y, color) {
 	ctx.fillRect(x, y, 1, 1);
 
 	saveBoardData();
+}
+
+function time() {
+	const now = new Date();
+
+	const hours = now.getHours().toString().padStart(2);
+	const minutes = now.getMinutes().toString().padStart(2, "0");
+	const seconds = now.getSeconds().toString().padStart(2, "0");
+
+	return `${hours}:${minutes}:${seconds}`;
+}
+
+const log = document.getElementById("log");
+function addToLog(entry) {
+	const lastEntries = log.innerText.split("\n").slice(-4);
+	lastEntries.push(`[${time()}] ${entry}`);
+	log.innerText = lastEntries.join("\n");
+}
+addToLog("We're live!");
+
+if (typeof settings.colors === "object") {
+	const colors = document.getElementById("colors");
+	const entries = Array.isArray(settings.colors) ? settings.colors.map(color => [color, color]) : Object.entries(settings.colors);
+
+	entries.forEach(([name, color]) => {
+		const colorSpan = document.createElement("span");
+
+		colorSpan.innerText = name;
+		colorSpan.style.color = color;
+
+		colors.append(colorSpan);
+	});
+}
+
+if (settings.commentSocketURL) {
+	const socket = new WebSocket(settings.commentSocketURL);
+	socket.addEventListener("open", () => console.log("Socket opened!"));
+	socket.addEventListener("message", event => {
+		let data = {};
+		try {
+			data = JSON.parse(event.data);
+		} catch (error) {
+			return console.log("Socket message data could not be parsed");
+		}
+
+		if (data.type !== "new_comment") return;
+
+		const content = data.payload.body.match(/([0-9]+) ([0-9]+) ([a-z]+)/);
+		if (content === null) return;
+
+		const xPos = parseInt(content[1]);
+		const yPos = parseInt(content[2]);
+		if (!Number.isSafeInteger(xPos) || !Number.isSafeInteger(yPos)) return;
+
+		if (typeof settings.colors !== "object") return;
+
+		if (Array.isArray(settings.colors)) {
+			if (!settings.colors.includes(content[3])) return;
+			placePixel(xPos, yPos, content[3]);
+		} else if (typeof settings.colors === "object") {
+			if (!settings.colors[content[3]]) return;
+			placePixel(xPos, yPos, settings.colors[content[3]]);
+		}
+		addToLog(`u/${data.payload.author} placed ${content[3]} pixel at (${xPos, yPos})`);
+	});
 }
