@@ -5,7 +5,24 @@ screen.style.width = (480 / 854) * window.innerHeight + "px";
 let baseSettings = {
 	width: 120,
 	height: 120,
-	colors: ["red"],
+	colors: {
+		"white": "#FFFFFF",
+		"gray": "#E4E4E4",
+		"darkgray": "#888888",
+		"black": "#222222",
+		"pink": "#FFA7D1",
+		"red": "#E50000",
+		"orange": "#E59500",
+		"brown": "#A06A42",
+		"yellow": "#E5D900",
+		"lime": "#94E044",
+		"green": "#02BE01",
+		"teal": "#00D3DD",
+		"skyblue": "#0083C7",
+		"blue": "#0000EA",
+		"lavender": "#CF6EE4",
+		"purple": "#820080",
+	},
 };
 try {
 	baseSettings = Object.assign(baseSettings, JSON.parse(localStorage.getItem("place-live:settings")));
@@ -109,7 +126,7 @@ if (settings.commentSocketURL) {
 
 		if (data.type !== "new_comment") return;
 
-		const content = data.payload.body.match(/([0-9]+) ([0-9]+) ([a-z]+)/);
+		const content = data.payload.body.toLowerCase().match(/([0-9]+) ([0-9]+) ([a-z]+)/);
 		if (content === null) return;
 
 		const xPos = parseInt(content[1]);
