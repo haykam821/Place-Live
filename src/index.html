@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>Place Live</title>
+		<script defer src="index.js"></script>
+
+		<style>
+			body {
+				background: #333;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				color: white;
+				font-family: -apple-system, sans-serif;
+
+				width: 100%;
+				height: 100%;
+				margin: 0;
+			}
+
+			#screen {
+				background: black;
+
+				z-index: 5;
+
+				text-align: center;
+			}
+
+			#board {
+				background: white;
+
+				width: 100%;
+				height: 80px;
+
+				image-rendering: pixelated;
+			}
+
+			#settings {
+				position: absolute;
+				top: 0;
+				right: 0;
+
+				width: 150px;
+				height: 200px;
+
+				font-family: monospace;
+				tab-size: 15px;
+				resize: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<textarea id="settings">{}</textarea>
+		<div id="screen">
+			<h1>r/Place in r/Pan</h1>
+			<p>
+				Type a command in the format <code>X Y color</code> to place a pixel.<br/>
+				For example, <code>5 9 red</code> will place a red pixel at (5, 9).<br />
+				Available colors are: <span id="colors"></span>
+			</p>
+			<canvas id="board"></canvas>
+		</div>
+	</body>
+</html>
