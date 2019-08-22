@@ -127,7 +127,13 @@ if (settings.commentSocketURL) {
 		if (data.type !== "new_comment") return;
 
 		const content = data.payload.body.toLowerCase().match(/([0-9]+) ([0-9]+) ([a-z]+)/);
-		if (content === null) return;
+		if (content === null) {
+			if (Array.isArray(settings.importantUsers) && settings.importantUsers.includes(data.payload.author)) {
+				addToLog(`u/${data.payload.author} said: ${data.payload.body}`);
+			} else {
+				return;
+			}
+		}
 
 		const xPos = parseInt(content[1]);
 		const yPos = parseInt(content[2]);
