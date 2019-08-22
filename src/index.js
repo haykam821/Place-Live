@@ -143,6 +143,6 @@ if (settings.commentSocketURL) {
 			if (!settings.colors[content[3]]) return;
 			placePixel(xPos, yPos, settings.colors[content[3]]);
 		}
-		addToLog(`u/${data.payload.author} placed ${content[3]} pixel at (${xPos, yPos})`);
+		addToLog(`u/${data.payload.author} placed ${content[3]} pixel at (${xPos}, ${yPos})`);
 	});
 }
