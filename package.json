@@ -4,7 +4,8 @@
 	"description": "r/Place on r/PAN",
 	"main": "./src/index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "eslint \"./**/*.js\""
 	},
 	"repository": {
 		"type": "git",
@@ -20,5 +21,14 @@
 	"bugs": {
 		"url": "https://github.com/haykam821/Place-Live/issues"
 	},
-	"homepage": "https://github.com/haykam821/Place-Live#readme"
+	"homepage": "https://github.com/haykam821/Place-Live#readme",
+	"devDependencies": {
+		"eslint": "^6.2.1",
+		"eslint-config-haykam": "^1.8.0",
+		"eslint-plugin-extra-rules": "0.0.0-development",
+		"eslint-plugin-html": "^6.0.0",
+		"eslint-plugin-json": "^1.4.0",
+		"eslint-plugin-markdown": "^1.0.0",
+		"eslint-plugin-unicorn": "^10.0.0"
+	}
 }
