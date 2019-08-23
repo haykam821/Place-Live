@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 
+require("file-loader?name=[name].[ext]!html-minify-loader!./index.html");
+
 const screen = document.getElementById("screen");
 screen.style.height = window.innerHeight + "px";
 screen.style.width = (480 / 854) * window.innerHeight + "px";
