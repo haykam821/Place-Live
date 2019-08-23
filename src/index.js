@@ -29,6 +29,7 @@ let baseSettings = {
 	},
 	height: 120,
 	width: 120,
+	streamID: "",
 };
 try {
 	baseSettings = Object.assign(baseSettings, JSON.parse(localStorage.getItem("place-live:settings")));
@@ -138,8 +139,24 @@ if (typeof settings.colors === "object") {
 	});
 }
 
-if (settings.commentSocketURL) {
-	const socket = new WebSocket(settings.commentSocketURL);
+async function getSocket() {
+	if (settings.commentSocketURL) {
+		return new WebSocket(settings.commentSocketURL);
+	}
+	if (!settings.streamID) return;
+
+	const postDetails = await fetch(`https://gateway.reddit.com/desktopapi/v1/postcomments/${settings.streamID}?limit=1&truncate=0`).then(res => res.json());
+	if (postDetails && postDetails.posts && postDetails.posts["t3_" + settings.streamID]) {
+		const post = postDetails.posts["t3_" + settings.streamID];
+		const socketUrl = post.liveCommentsWebsocket;
+		return new WebSocket(socketUrl);
+	}
+}
+getSocket().then(socket => {
+	if (!(socket instanceof WebSocket)) {
+		return console.log("Could not fetch comments websocket");
+	}
+
 	socket.addEventListener("open", () => {
 		liveIndicator.classList.add("socket-connected");
 		console.log("Socket opened!");
@@ -182,4 +199,4 @@ if (settings.commentSocketURL) {
 		}
 		addToLog(`u/${data.payload.author} placed ${content[3]} pixel at (${xPos}, ${yPos})`);
 	});
-}
+});
