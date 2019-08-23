@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const screen = document.getElementById("screen");
 screen.style.height = window.innerHeight + "px";
 screen.style.width = (480 / 854) * window.innerHeight + "px";
@@ -5,26 +7,28 @@ screen.style.width = (480 / 854) * window.innerHeight + "px";
 const liveIndicator = document.getElementById("live");
 
 let baseSettings = {
-	width: 120,
-	height: 120,
 	colors: {
-		"white": "#FFFFFF",
-		"gray": "#E4E4E4",
-		"darkgray": "#888888",
-		"black": "#222222",
-		"pink": "#FFA7D1",
-		"red": "#E50000",
-		"orange": "#E59500",
-		"brown": "#A06A42",
-		"yellow": "#E5D900",
-		"lime": "#94E044",
-		"green": "#02BE01",
-		"teal": "#00D3DD",
-		"skyblue": "#0083C7",
-		"blue": "#0000EA",
-		"lavender": "#CF6EE4",
-		"purple": "#820080",
+		/* eslint-disable sort-keys */
+		white: "#FFFFFF",
+		gray: "#E4E4E4",
+		darkgray: "#888888",
+		black: "#222222",
+		pink: "#FFA7D1",
+		red: "#E50000",
+		orange: "#E59500",
+		brown: "#A06A42",
+		yellow: "#E5D900",
+		lime: "#94E044",
+		green: "#02BE01",
+		teal: "#00D3DD",
+		skyblue: "#0083C7",
+		blue: "#0000EA",
+		lavender: "#CF6EE4",
+		purple: "#820080",
+		/* eslint-enable sort-keys */
 	},
+	height: 120,
+	width: 120,
 };
 try {
 	baseSettings = Object.assign(baseSettings, JSON.parse(localStorage.getItem("place-live:settings")));
@@ -37,13 +41,13 @@ const settings = new Proxy(baseSettings, {
 		const result = Reflect.set(target, ...rest);
 		localStorage.setItem("place-live:settings", JSON.stringify(target));
 		return result;
-	}
+	},
 });
 
 const board = document.getElementById("board");
 board.style.height = board.clientWidth + "px";
 
-board.height = document.getElementById("boardHeight").innerText =  settings.height;
+board.height = document.getElementById("boardHeight").innerText = settings.height;
 board.width = document.getElementById("boardWidth").innerText = settings.width;
 
 const settingsInput = document.getElementById("settings");
@@ -56,7 +60,7 @@ settingsInput.addEventListener("input", event => {
 		return console.log("Invalid JSON: ", error);
 	}
 
-	for (let key of Object.keys(newValue)) {
+	for (const key of Object.keys(newValue)) {
 		settings[key] = newValue[key];
 	}
 });
@@ -72,10 +76,21 @@ if (boardData) {
 	image.src = boardData;
 }
 
+/**
+ * Saves the board data to local storage.
+ * @param {HTMLCanvasElement} canvas The canvas to save the data of.
+ * @param {string} key The local storage key to use.
+ */
 function saveBoardData(canvas = board, key = "place-live:board") {
 	localStorage.setItem(key, canvas.toDataURL());
 }
 
+/**
+ * Places a pixel at a position on the board.
+ * @param {number} x The X position to place the pixel at.
+ * @param {number} y The Y position to place the pixel at.
+ * @param {string} color The color of the pixel.
+ */
 function placePixel(x, y, color) {
 	ctx.fillStyle = color;
 	ctx.fillRect(x, y, 1, 1);
@@ -83,6 +98,10 @@ function placePixel(x, y, color) {
 	saveBoardData();
 }
 
+/**
+ * Gets the current time as a string.
+ * @returns {string} The current time separated by colons.
+ */
 function time() {
 	const now = new Date();
 
@@ -94,6 +113,10 @@ function time() {
 }
 
 const log = document.getElementById("log");
+/**
+ * Adds a line to the log.
+ * @param {string} entry The text to add to the log.
+ */
 function addToLog(entry) {
 	const lastEntries = log.innerText.split("\n").slice(-4);
 	lastEntries.push(`[${time()}] ${entry}`);
@@ -134,7 +157,7 @@ if (settings.commentSocketURL) {
 
 		if (data.type !== "new_comment") return;
 
-		const content = data.payload.body.toLowerCase().match(/([0-9]+) ([0-9]+) ([a-z]+)/);
+		const content = data.payload.body.toLowerCase().match(/(\d+) (\d+) ([a-z]+)/);
 		if (content === null) {
 			if (Array.isArray(settings.importantUsers) && settings.importantUsers.includes(data.payload.author)) {
 				addToLog(`u/${data.payload.author} said: ${data.payload.body}`);
