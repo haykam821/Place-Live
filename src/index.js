@@ -1,6 +1,7 @@
-/* eslint-disable no-console */
-
 require("file-loader?name=[name].[ext]!html-minify-loader!./index.html");
+
+const debug = require("debug");
+const log = debug("place-live");
 
 const screen = document.getElementById("screen");
 screen.style.height = window.innerHeight + "px";
@@ -36,7 +37,7 @@ let baseSettings = {
 try {
 	baseSettings = Object.assign(baseSettings, JSON.parse(localStorage.getItem("place-live:settings")));
 } catch (error) {
-	console.log("Saved settings has invalid JSON, reverting to defaults:", error);
+	log("Saved settings has invalid JSON, reverting to defaults:", error);
 }
 
 const settings = new Proxy(baseSettings, {
@@ -60,7 +61,7 @@ settingsInput.addEventListener("input", event => {
 	try {
 		newValue = JSON.parse(event.target.value);
 	} catch (error) {
-		return console.log("Invalid JSON: ", error);
+		return log("Invalid JSON in settings input: ", error);
 	}
 
 	for (const key of Object.keys(newValue)) {
@@ -115,15 +116,16 @@ function time() {
 	return `${hours}:${minutes}:${seconds}`;
 }
 
-const log = document.getElementById("log");
+const logElem = document.getElementById("log");
 /**
  * Adds a line to the log.
  * @param {string} entry The text to add to the log.
  */
 function addToLog(entry) {
-	const lastEntries = log.innerText.split("\n").slice(-4);
+	const lastEntries = logElem.innerText.split("\n").slice(-4);
 	lastEntries.push(`[${time()}] ${entry}`);
-	log.innerText = lastEntries.join("\n");
+	log("Added '%s' to public log", entry);
+	logElem.innerText = lastEntries.join("\n");
 }
 addToLog("We're live!");
 
@@ -156,12 +158,12 @@ async function getSocket() {
 }
 getSocket().then(socket => {
 	if (!(socket instanceof WebSocket)) {
-		return console.log("Could not fetch comments websocket");
+		return log("Could not fetch comments websocket");
 	}
 
 	socket.addEventListener("open", () => {
 		liveIndicator.classList.add("socket-connected");
-		console.log("Socket opened!");
+		log("Socket opened!");
 	});
 	socket.addEventListener("close", () => {
 		liveIndicator.classList.remove("socket-connected");
@@ -171,7 +173,7 @@ getSocket().then(socket => {
 		try {
 			data = JSON.parse(event.data);
 		} catch (error) {
-			return console.log("Socket message data could not be parsed");
+			return log("Socket message data could not be parsed");
 		}
 
 		if (data.type !== "new_comment") return;
