@@ -200,3 +200,8 @@ getSocket().then(socket => {
 		addToLog(`u/${data.payload.author} placed ${content[3]} pixel at (${xPos}, ${yPos})`);
 	});
 });
+
+if (settings.streamID) {
+	const streamURL = document.getElementById("streamURL");
+	streamURL.value = `https://www.reddit.com/rpan/${settings.streamID}`;
+}

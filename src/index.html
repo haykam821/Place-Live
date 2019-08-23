@@ -97,6 +97,14 @@
 				resize: none;
 			}
 
+
+			#streamURL {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				width: 150px;
+			}
+
 			#log {
 				position: absolute;
 				bottom: 0;
@@ -113,6 +121,7 @@
 
 	<body>
 		<textarea id="settings">{}</textarea>
+		<input id="streamURL" alt="The stream link on r/pan" value="Unknown..." readonly />
 		<div id="screen">
 			<h1>
 				<div id="live"></div>
