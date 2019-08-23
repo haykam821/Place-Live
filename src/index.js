@@ -2,6 +2,8 @@ const screen = document.getElementById("screen");
 screen.style.height = window.innerHeight + "px";
 screen.style.width = (480 / 854) * window.innerHeight + "px";
 
+const liveIndicator = document.getElementById("live");
+
 let baseSettings = {
 	width: 120,
 	height: 120,
@@ -115,7 +117,13 @@ if (typeof settings.colors === "object") {
 
 if (settings.commentSocketURL) {
 	const socket = new WebSocket(settings.commentSocketURL);
-	socket.addEventListener("open", () => console.log("Socket opened!"));
+	socket.addEventListener("open", () => {
+		liveIndicator.classList.add("socket-connected");
+		console.log("Socket opened!");
+	});
+	socket.addEventListener("close", () => {
+		liveIndicator.classList.remove("socket-connected");
+	});
 	socket.addEventListener("message", event => {
 		let data = {};
 		try {

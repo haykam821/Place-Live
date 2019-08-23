@@ -27,6 +27,36 @@
 				position: relative;
 			}
 
+			h1 {
+				margin: 0;
+				padding-top: 18px;
+				padding-bottom: 11px;
+			}
+
+			@keyframes live-pulse {
+				from {
+					background-color: #333;
+				}
+				to {
+					background-color: red;
+				}
+			}
+
+			#live {
+				display: inline-block;
+				background-color: #333;
+				width: 20px;
+				height: 20px;
+				border-radius: 50%;
+			}
+			#live.socket-connected {
+				animation: live-pulse;
+				animation-direction: alternate;
+				animation-duration: 0.7s;
+				animation-iteration-count: infinite;
+				animation-timing-function: cubic-bezier();
+			}
+
 			#help {
 				padding: 8px 8px;
 				margin: 8px 8px;
@@ -84,7 +114,10 @@
 	<body>
 		<textarea id="settings">{}</textarea>
 		<div id="screen">
-			<h1>r/Place in r/Pan</h1>
+			<h1>
+				<div id="live"></div>
+				r/Place in r/Pan
+			</h1>
 			<p id="help">
 				Type a command in the format <code>X Y color</code> to place a pixel.<br/>
 				For example, <code>5 9 red</code> will place a red pixel at (5, 9).<br />
