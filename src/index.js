@@ -129,6 +129,20 @@ function addToLog(entry) {
 }
 addToLog("We're live!");
 
+// Log download functionality
+const saveLog = document.getElementById("saveLog");
+saveLog.addEventListener("click", () => {
+	const link = document.createElement("a");
+	link.href = "data:text/plain;charset=utf-8," + encodeURIComponent(logElem.innerText.trim());
+	link.download = "place-live-log.txt";
+	link.style.display = "none";
+
+	// Trigger click in DOM temporarily
+	document.body.append(link);
+	link.click();
+	document.body.removeChild(link);
+});
+
 if (typeof settings.colors === "object") {
 	const colors = document.getElementById("colors");
 	const entries = Array.isArray(settings.colors) ? settings.colors.map(color => [color, color]) : Object.entries(settings.colors);

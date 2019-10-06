@@ -102,10 +102,12 @@
 			}
 
 
-			#streamURL {
+			#actions {
 				position: absolute;
 				bottom: 0;
 				right: 0;
+			}
+			#actions, #actions > * {
 				width: 150px;
 			}
 
@@ -125,7 +127,10 @@
 
 	<body>
 		<textarea id="settings">{}</textarea>
-		<input id="streamURL" alt="The stream link on r/pan" value="Unknown..." readonly />
+		<div id="actions">
+			<button id="saveLog" alt="Saves the log to a text file.">Save Log</button>
+			<input id="streamURL" alt="The stream link on r/pan" value="Unknown..." readonly />
+		</div>
 		<div id="screen">
 			<h1>
 				<div id="live"></div>
