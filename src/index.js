@@ -31,8 +31,8 @@ let baseSettings = {
 		/* eslint-enable sort-keys */
 	},
 	height: 120,
-	width: 120,
 	streamID: "",
+	width: 120,
 };
 try {
 	baseSettings = Object.assign(baseSettings, JSON.parse(localStorage.getItem("place-live:settings")));
@@ -143,6 +143,9 @@ if (typeof settings.colors === "object") {
 	});
 }
 
+/**
+ * Gets the live comments socket for the configured post.
+ */
 async function getSocket() {
 	if (settings.commentSocketURL) {
 		return new WebSocket(settings.commentSocketURL);
