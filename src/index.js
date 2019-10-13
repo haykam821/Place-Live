@@ -1,7 +1,6 @@
 require("file-loader?name=[name].[ext]!html-minify-loader!./index.html");
 
-const debug = require("debug");
-const log = debug("place-live");
+const { main: log } = require("./debug.js");
 
 const screen = document.getElementById("screen");
 screen.style.height = window.innerHeight + "px";
