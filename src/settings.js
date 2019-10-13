@@ -49,7 +49,7 @@ settingsInput.addEventListener("input", event => {
 		return log("Invalid JSON in settings input: ", error);
 	}
 
-	for (const key of Object.keys(newValue)) {
+	for (const key of Object.keys(settings)) {
 		settings[key] = newValue[key];
 	}
 });
