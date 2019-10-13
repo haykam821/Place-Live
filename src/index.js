@@ -158,6 +158,29 @@ if (typeof settings.colors === "object") {
 }
 
 /**
+ * Attempts to place a pixel.
+ * @param {number} xPos The X position of the pixel to place.
+ * @param {number} yPos The Y position of the pixel to place.
+ * @param {string} color The color of the pixel to place.
+ * @param {string} author The pixel placement's author.
+ */
+function attemptPlace(xPos, yPos, color, author) {
+	if (!Number.isSafeInteger(xPos) || !Number.isSafeInteger(yPos)) return;
+	if (xPos < 0 || yPos < 0 || xPos >= board.width || yPos >= board.height) return;
+
+	if (typeof settings.colors !== "object") return;
+
+	if (Array.isArray(settings.colors)) {
+		if (!settings.colors.includes(color)) return;
+		placePixel(xPos, yPos, color);
+	} else if (typeof settings.colors === "object") {
+		if (!settings.colors[color]) return;
+		placePixel(xPos, yPos, settings.colors[color]);
+	}
+	addToLog(`u/${author} placed ${color} pixel at (${xPos}, ${yPos})`);
+}
+
+/**
  * Gets the live comments socket for the configured post.
  */
 async function getSocket() {
@@ -206,19 +229,7 @@ getSocket().then(socket => {
 
 		const xPos = parseInt(content[1]);
 		const yPos = parseInt(content[2]);
-		if (!Number.isSafeInteger(xPos) || !Number.isSafeInteger(yPos)) return;
-		if (xPos < 0 || yPos < 0 || xPos >= board.width || yPos >= board.height) return;
-
-		if (typeof settings.colors !== "object") return;
-
-		if (Array.isArray(settings.colors)) {
-			if (!settings.colors.includes(content[3])) return;
-			placePixel(xPos, yPos, content[3]);
-		} else if (typeof settings.colors === "object") {
-			if (!settings.colors[content[3]]) return;
-			placePixel(xPos, yPos, settings.colors[content[3]]);
-		}
-		addToLog(`u/${data.payload.author} placed ${content[3]} pixel at (${xPos}, ${yPos})`);
+		attemptPlace(xPos, yPos, content[3], data.payload.author);
 	});
 });
 
