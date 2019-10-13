@@ -88,27 +88,46 @@
 				image-rendering: pixelated;
 			}
 
-			#settings {
+			/* Side area */
+			#side {
 				position: absolute;
-				top: 0;
 				right: 0;
+				
+				width: 200px;
+				height: calc(100% - 8px);
 
-				width: 150px;
+				padding: 4px;
+			}
+			#side * {
+				box-sizing: border-box;
+			}
+			#side, #actions {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-between;
+			}
+			#side > *, #actions > * {
+				margin: 0;
+				padding: 0;
+				border: none;
+				display: block;
+				width: 100%;
+			}
+			#settings, #actions > * {
+				padding: 4px;
+				border: 1px solid black;
+				border-radius: 4px;
+			}
+			#actions > *:not(:last-child) {
+				margin-bottom: 4px;
+			}
+			#settings {
+				resize: none;
 				height: 200px;
 
 				font-family: monospace;
 				tab-size: 15px;
-				resize: none;
-			}
-
-
-			#actions {
-				position: absolute;
-				bottom: 0;
-				right: 0;
-			}
-			#actions, #actions > * {
-				width: 150px;
 			}
 
 			#log {
@@ -126,10 +145,12 @@
 	</head>
 
 	<body>
-		<textarea id="settings">{}</textarea>
-		<div id="actions">
-			<button id="saveLog" alt="Saves the log to a text file.">Save Log</button>
-			<input id="streamURL" alt="The stream link on r/pan" value="Unknown..." readonly />
+		<div id="side">
+			<textarea id="settings">{}</textarea>
+			<div id="actions">
+				<button id="saveLog" alt="Saves the log to a text file.">Save Log</button>
+				<input id="streamURL" alt="The stream link on r/pan" value="Unknown..." readonly />
+			</div>
 		</div>
 		<div id="screen">
 			<h1>
