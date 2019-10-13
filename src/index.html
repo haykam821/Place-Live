@@ -6,8 +6,29 @@
 		<script defer src="index.js"></script>
 
 		<style>
+			:root {
+				--background: #444;
+
+				--field-background: #eee;
+				--field-pressed: #ddd;
+				--field-text: black;
+				--field-border: #333;
+				--field-focus: #ff00b1;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--background: #333;
+
+					--field-background: #555;
+					--field-pressed: #444;
+					--field-text: #eee;
+					--field-border: #222;
+					--field-focus: #5a5aff;
+				}
+			}
+
 			body {
-				background: #333;
+				background: var(--background);
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -116,8 +137,17 @@
 			}
 			#settings, #actions > * {
 				padding: 4px;
-				border: 1px solid black;
+				border: 1.5px solid var(--field-border);
 				border-radius: 4px;
+				background: var(--field-background);
+				color: var(--field-text);
+				outline: none;
+			}
+			#settings:focus, #actions > *:focus {
+				border: 1.5px solid var(--field-focus);
+			}
+			#side button:active {
+				background: var(--field-pressed);
 			}
 			#actions > *:not(:last-child) {
 				margin-bottom: 4px;
