@@ -12,6 +12,7 @@
 				--field-background: #eee;
 				--field-pressed: #ddd;
 				--field-text: black;
+				--field-invalid: #b10000;
 				--field-border: #333;
 				--field-focus: #ff00b1;
 			}
@@ -22,6 +23,7 @@
 					--field-background: #555;
 					--field-pressed: #444;
 					--field-text: #eee;
+					--field-invalid: #ffafaf;
 					--field-border: #222;
 					--field-focus: #5a5aff;
 				}
@@ -158,6 +160,9 @@
 
 				font-family: monospace;
 				tab-size: 15px;
+			}
+			#settings:invalid {
+				color: var(--field-invalid);
 			}
 
 			#log {

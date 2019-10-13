@@ -46,8 +46,10 @@ settingsInput.addEventListener("input", event => {
 	try {
 		newValue = JSON.parse(event.target.value);
 	} catch (error) {
+		settingsInput.setCustomValidity("Invalid JSON");
 		return log("Invalid JSON in settings input: ", error);
 	}
+	settingsInput.setCustomValidity("");
 
 	for (const key of Object.keys(settings)) {
 		settings[key] = newValue[key];
