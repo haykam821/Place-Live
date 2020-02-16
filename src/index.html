@@ -56,7 +56,7 @@
 			h1 {
 				margin: 0;
 				padding-top: 18px;
-				padding-bottom: 11px;
+				padding-bottom: 4px;
 			}
 
 			@keyframes live-pulse {
@@ -82,6 +82,11 @@
 				animation-duration: 0.7s;
 				animation-iteration-count: infinite;
 				animation-timing-function: cubic-bezier();
+			}
+
+			#credit {
+				font-style: italic;
+				color: #666;
 			}
 
 			#help {
@@ -192,6 +197,9 @@
 				<div id="live"></div>
 				r/Place in r/Pan
 			</h1>
+			<span id="credit">
+				Built by haykam821
+			</span>
 			<p id="help">
 				Type a command in the format <code>X Y color</code> to place a pixel.<br/>
 				For example, <code>5 9 red</code> will place a red pixel at (5, 9).<br />
