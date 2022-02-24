@@ -38,5 +38,8 @@
 		"html-minify-loader": "^1.4.0",
 		"webpack": "^4.39.2",
 		"webpack-cli": "^3.3.7"
+	},
+	"eslintConfig": {
+		"extends": "eslint-config-haykam"
 	}
 }
