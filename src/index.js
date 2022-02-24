@@ -13,8 +13,12 @@ const settings = require("./settings.js");
 const board = document.getElementById("board");
 board.style.height = board.clientWidth + "px";
 
-board.height = document.getElementById("boardHeight").innerText = settings.height;
-board.width = document.getElementById("boardWidth").innerText = settings.width;
+function setBoardProperty(property, id, value) {
+	board[property] = value;
+	document.getElementById(id).innerText = value;
+}
+setBoardProperty("height", "boardHeight", settings.height);
+setBoardProperty("width", "boardWidth", settings.width);
 
 const ctx = board.getContext("2d");
 
@@ -87,7 +91,7 @@ saveLog.addEventListener("click", () => {
 	// Trigger click in DOM temporarily
 	document.body.append(link);
 	link.click();
-	document.body.removeChild(link);
+	link.remove();
 });
 
 if (typeof settings.colors === "object") {
@@ -143,7 +147,10 @@ async function getSocket() {
 		return new WebSocket(socketUrl);
 	}
 }
-getSocket().then(socket => {
+
+async function start() {
+	const socket = await getSocket();
+
 	if (!(socket instanceof WebSocket)) {
 		return log("Could not fetch comments websocket");
 	}
@@ -178,7 +185,9 @@ getSocket().then(socket => {
 		const yPos = parseInt(content[2]);
 		attemptPlace(xPos, yPos, content[3], data.payload.author);
 	});
-});
+}
+/* eslint-disable-next-line unicorn/prefer-top-level-await */
+start();
 
 if (settings.streamID) {
 	const streamURL = document.getElementById("streamURL");

@@ -24,13 +24,8 @@
 	},
 	"homepage": "https://github.com/haykam821/Place-Live#readme",
 	"devDependencies": {
-		"eslint": "^6.2.1",
-		"eslint-config-haykam": "^1.8.0",
-		"eslint-plugin-extra-rules": "0.0.0-development",
-		"eslint-plugin-html": "^6.0.0",
-		"eslint-plugin-json": "^1.4.0",
-		"eslint-plugin-markdown": "^1.0.0",
-		"eslint-plugin-unicorn": "^10.0.0"
+		"eslint": "^8.9.0",
+		"eslint-config-haykam": "^1.15.0"
 	},
 	"dependencies": {
 		"debug": "^4.1.1",
